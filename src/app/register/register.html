@@ -1,0 +1,46 @@
+<h2>Registration Page</h2>
+<form #registerForm="ngForm" (ngSubmit)="registerUser(registerForm)">
+    <label>Name :</label>
+    <br>
+    <input type="text" [(ngModel)]="user.name" name="name" required #name="ngModel">
+    <div *ngIf="name.touched && name.errors?.['required']">
+        Name is required
+    </div>
+    <br><br>
+    <label>Email :</label>
+    <br>
+    <input type="email" [(ngModel)]="user.email" name="email" required pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$" #email="ngModel">
+    <div *ngIf="email.touched && email.errors?.['required']">
+        Email is required
+    </div>
+    <div *ngIf="email.touched && email.errors?.['pattern']">
+        Please enter valid gmail address.
+    </div>
+    <br><br>
+    <label>Password :</label>
+    <br>
+    <input type="password" [(ngModel)]="user.password" name="password" required minlength="6" #password="ngModel">
+    <div *ngIf="password.touched && password.errors?.['required']">
+        Password is required.
+    </div>
+    <div *ngIf="password.touched && password.errors?.['minlength']">
+        Password should contain minimum 6 characters.
+    </div>
+    <br><br>
+    <label>Confirm Password :</label>
+    <br>
+    <input type="password" [(ngModel)]="user.confirmPassword" name="confirmPassword" required minlength="6" #confirmPassword="ngModel">
+    <div *ngIf="confirmPassword.touched && confirmPassword.errors?.['required']">
+        Confirm Password is required.
+    </div>
+    <div *ngIf="confirmPassword.touched && user.password !== user.confirmPassword">
+        Password and confirm Password do not match.
+    </div>
+    <br><br>
+    <p *ngIf="successMessage">
+        {{successMessage}}
+    </p>
+    <button type="submit" [disabled]="registerForm.invalid || user.password !== user.confirmPassword">
+        Registration
+    </button>
+</form>

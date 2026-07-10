@@ -1,0 +1,39 @@
+<h2>Login Page</h2>
+<form #loginForm="ngForm" (ngSubmit)="loginUser(loginForm)">
+    <label>Email :</label>
+    <br>
+    <input type="email" placeholder="Enter email address" [(ngModel)]="user.email" name="email" required pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$" #email="ngModel">
+    <div *ngIf="email.touched && email.errors?.['required']">
+        Email is required
+    </div>
+    <div *ngIf="email.touched && email.errors?.['pattern']">
+        Please enter valid gmail address.
+    </div>
+    <br><br>
+    <label>Password :</label>
+    <br>
+    <input type="password" placeholder="Enter valid password" [(ngModel)]="user.password" name="password" required minlength="6" #password="ngModel">
+    <div *ngIf="password.touched && password.errors?.['required']">
+        Password is required.
+    </div>
+    <div *ngIf="password.touched && password.errors?.['minlength']">
+        Password should contain minimum 6 characters.
+    </div>
+    <br><br>
+    <label>Confirm Password :</label>
+    <br>
+    <input type="password" placeholder="Enter confirm password" [(ngModel)]="user.confirmPassword" name="confirmPassword" required minlength="6" #confirmPassword="ngModel">
+    <div *ngIf="confirmPassword.touched && confirmPassword.errors?.['required']">
+        Confirm Password is required.
+    </div>
+    <div *ngIf="confirmPassword.touched && user.password !== user.confirmPassword">
+        Password and confirm Password do not match.
+    </div>
+    <br><br>
+    <p *ngIf="successMessage">
+        {{successMessage}}
+    </p>
+    <button type="submit" [disabled]="loginForm.invalid || user.password !== user.confirmPassword">
+        Login
+    </button>
+</form>
